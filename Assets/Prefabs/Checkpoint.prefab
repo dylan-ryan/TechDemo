@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 3062337451756599635}
-  playerPrefab: {fileID: 0}
+  playerPrefab: {fileID: 4899233137649319638, guid: 2ccf2867c39330342841729fc362ca19, type: 3}
 --- !u!1 &5884771793566528712
 GameObject:
   m_ObjectHideFlags: 0
