@@ -5,34 +5,46 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Door : MonoBehaviour
 {
-    Transform endPos;
-    Transform startPos;
-    float speed = 1;
-    float startTime;
-    float length;
-    float journey;
-    public GameObject door;
-    // Start is called before the first frame update
+    public Transform door;
+    public Vector3 closedPos;
+    public Vector3 openPos;
+    public float speed = 1f;
+
+    private bool isOpen = false;
+
     void Start()
     {
-        startTime = Time.time;
-        length = Vector3.Distance(startPos.position, endPos.position);
-
+        door.localPosition = closedPos;
     }
 
-    // Update is called once per frame
-    public void Update()
+    void FixedUpdate()
     {
-            float distance = (Time.time - startTime) * speed;
-            journey = distance / length;
-        
-    }
+        float doorSpeed = speed * Time.fixedDeltaTime;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other == gameObject.CompareTag("Player"))
+        if (isOpen == true)
         {
-            door.transform.localPosition = Vector3.Lerp(startPos.position, endPos.position, journey);
+            door.localPosition = Vector3.Lerp(door.localPosition, openPos, doorSpeed);
+        }
+        if (isOpen == false)
+        {
+            door.localPosition = Vector3.Lerp(door.localPosition, closedPos, doorSpeed);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+        isOpen = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isOpen = false;
         }
     }
 }
+

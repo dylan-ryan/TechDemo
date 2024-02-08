@@ -1,36 +1,46 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckPoint : MonoBehaviour
+public class CheckpointPrefab : MonoBehaviour
 {
-    public GameObject prefab;
-    public GameObject playerPrefab;
-    Vector3 LastCheckPoint;
-    Vector3 LastPoint;
-    // Start is called before the first frame update
-    void Start()
+    private const string playerTag = "Player";
+    private static Dictionary<GameObject, Vector3> checkpointPositions = new Dictionary<GameObject, Vector3>();
+
+    void OnTriggerEnter(Collider other)
     {
-        playerPrefab.GetComponent<CharacterController>();
+        if (other.CompareTag(playerTag))
+        {
+            StoreCheckpointPosition(other.gameObject);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        LastPoint = playerPrefab.transform.position;
         if (Input.GetKeyDown(KeyCode.R))
         {
-            playerPrefab.GetComponent<CharacterController>().enabled = false;
-            playerPrefab.transform.position = LastCheckPoint;
-            playerPrefab.GetComponent<CharacterController>().enabled = true;
+            RespawnPlayer();
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    void StoreCheckpointPosition(GameObject player)
     {
-        if (other.gameObject == playerPrefab)
+        checkpointPositions[player] = transform.position;
+        Debug.Log("Checkpoint position stored for player.");
+    }
+
+    void RespawnPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+        player.GetComponent<CharacterController>().enabled = false;
+        if (player != null && checkpointPositions.ContainsKey(player))
         {
-            LastCheckPoint = playerPrefab.transform.position;
+            player.transform.position = checkpointPositions[player];
+            Debug.Log("Player respawned at checkpoint: " + checkpointPositions[player]);
         }
+        else
+        {
+            Debug.LogWarning("Player not found or no checkpoint position stored. Unable to respawn.");
+        }
+        player.GetComponent<CharacterController>().enabled = true;
     }
 }
