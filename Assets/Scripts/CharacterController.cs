@@ -24,6 +24,7 @@ public class FPSController : MonoBehaviour
     private CharacterController characterController;
     private bool isGrounded;
     private float verticalSpeed;
+    private bool isPaused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +38,37 @@ public class FPSController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
-        HandleLook();
-        HandleJump();
-        HandlePickupAndThrow();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+        else
+        {
+            if (!isPaused)
+            {
+                HandleMovement();
+                HandleLook();
+                HandleJump();
+                HandlePickupAndThrow();
+            }
+        }
+    }
+    void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     void HandleMovement()
