@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class CheckpointPrefab : MonoBehaviour
 {
-    private const string playerTag = "Player";
+    // Dictionary = variable that stores multiple information like player and location.
     private static Dictionary<GameObject, Vector3> checkpointPositions = new Dictionary<GameObject, Vector3>();
 
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(playerTag))
+        if (other.CompareTag("Player"))
         {
-            StoreCheckpointPosition(other.gameObject);
+            CheckpointPos(other.gameObject);
         }
     }
 
@@ -18,28 +18,29 @@ public class CheckpointPrefab : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RespawnPlayer();
+            Respawn();
         }
     }
 
-    void StoreCheckpointPosition(GameObject player)
+    public void CheckpointPos(GameObject player)
     {
+        //saves players Vector3 in checkpoint trigger
         checkpointPositions[player] = transform.position;
         Debug.Log("Checkpoint position stored for player.");
     }
 
-    void RespawnPlayer()
+    public void Respawn()
     {
-        GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<CharacterController>().enabled = false;
-        if (player != null && checkpointPositions.ContainsKey(player))
+        //ContainsKey is apart of the dictionary class to see if a specific variable exists in it.
+        if (checkpointPositions.ContainsKey(player))
         {
             player.transform.position = checkpointPositions[player];
-            Debug.Log("Player respawned at checkpoint: " + checkpointPositions[player]);
         }
         else
         {
-            Debug.LogWarning("Player not found or no checkpoint position stored. Unable to respawn.");
+            player.transform.position = Vector3.zero;
         }
         player.GetComponent<CharacterController>().enabled = true;
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Checkpoint2
   - Checkpoint1
+  - CoinText
   layers:
   - Default
   - TransparentFX
