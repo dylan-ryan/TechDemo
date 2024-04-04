@@ -5,6 +5,12 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     public GameObject destination;
+    private AudioSource teleportSound;
+
+    private void Start()
+    {
+        teleportSound = GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,6 +24,11 @@ public class Teleport : MonoBehaviour
     {
         if (destination != null)
         {
+            if (teleportSound != null)
+            {
+                teleportSound.Play();
+            }
+
             destination.GetComponent<Collider>().enabled = false;
 
             player.GetComponent<CharacterController>().enabled = false;
