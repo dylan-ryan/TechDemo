@@ -3,18 +3,21 @@ using UnityEngine.UI;
 
 public class CoinScore : MonoBehaviour
 {
+    public AudioClip collectSound;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            CollectCoin();
+            CollectCoin(other.gameObject);
         }
     }
 
-    void CollectCoin()
+    void CollectCoin(GameObject player)
     {
         CoinManager.Instance.IncrementCoinCount();
         UpdateCoinText();
+        PlayCollectSound(player);
         Destroy(gameObject);
     }
 
@@ -28,6 +31,15 @@ public class CoinScore : MonoBehaviour
             {
                 coinText.text = "Coins: " + CoinManager.Instance.GetCoinCount().ToString();
             }
+        }
+    }
+
+    void PlayCollectSound(GameObject player)
+    {
+        AudioSource audioSource = player.GetComponent<AudioSource>();
+        if (audioSource != null && collectSound != null)
+        {
+            audioSource.PlayOneShot(collectSound);
         }
     }
 }
