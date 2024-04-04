@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Door : MonoBehaviour
 {
@@ -25,11 +24,11 @@ public class Door : MonoBehaviour
     {
         float doorSpeed = speed * Time.fixedDeltaTime;
 
-        if (isOpen == true)
+        if (isOpen)
         {
             door.localPosition = Vector3.Lerp(door.localPosition, openPos, doorSpeed);
         }
-        if (isOpen == false)
+        else
         {
             door.localPosition = Vector3.Lerp(door.localPosition, closedPos, doorSpeed);
         }
@@ -37,26 +36,34 @@ public class Door : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-        isOpen = true;
-            if (doorOpenSound != null && !audioSource.isPlaying)
+            isOpen = true;
+            if (doorCloseSound != null)
             {
-                audioSource.PlayOneShot(doorOpenSound);
+                StopAndPlaySound(doorCloseSound);
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isOpen = false;
-            if (doorCloseSound != null && !audioSource.isPlaying)
+            if (doorOpenSound != null)
             {
-                audioSource.PlayOneShot(doorCloseSound);
+                StopAndPlaySound(doorOpenSound);
             }
         }
     }
-}
 
+    void StopAndPlaySound(AudioClip sound)
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        audioSource.PlayOneShot(sound);
+    }
+}

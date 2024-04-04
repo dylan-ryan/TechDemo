@@ -4,11 +4,19 @@ using UnityEngine;
 public class Killbox : MonoBehaviour
 {
     public GameObject checkpoint;
+    public AudioClip deathSound;
+    private AudioSource audioSource;
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             RespawnPlayer(other.gameObject);
+            PlayDeathSound();
         }
     }
 
@@ -25,5 +33,12 @@ public class Killbox : MonoBehaviour
             player.transform.position = Vector3.zero;
         }
         player.GetComponent<CharacterController>().enabled = true;
+    }
+    void PlayDeathSound()
+    {
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
     }
 }
