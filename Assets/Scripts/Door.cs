@@ -9,12 +9,16 @@ public class Door : MonoBehaviour
     public Vector3 closedPos;
     public Vector3 openPos;
     public float speed = 1f;
+    public AudioClip doorOpenSound;
+    public AudioClip doorCloseSound;
 
     private bool isOpen = false;
+    private AudioSource audioSource;
 
     void Start()
     {
         door.localPosition = closedPos;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -36,6 +40,10 @@ public class Door : MonoBehaviour
         if(other.CompareTag("Player"))
         {
         isOpen = true;
+            if (doorOpenSound != null && !audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(doorOpenSound);
+            }
         }
     }
 
@@ -44,6 +52,10 @@ public class Door : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isOpen = false;
+            if (doorCloseSound != null && !audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(doorCloseSound);
+            }
         }
     }
 }
