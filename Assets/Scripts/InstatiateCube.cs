@@ -23,5 +23,6 @@ public class InstatiateCube : MonoBehaviour
         cubeRigidbody.mass = 1f;
         cubeRigidbody.drag = 0.5f;
         cubeRigidbody.angularDrag = 0.5f;
+
     }
 }

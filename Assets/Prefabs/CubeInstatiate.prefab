@@ -400,3 +400,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 5562958737164236433, guid: fd3e49951ea5b534ca76700501386435, type: 3}
   spawnPos: {fileID: 7889743818615350016}
+  collisionSound: {fileID: 8300000, guid: 638f5365b1ff0f540ba0641b997c20b3, type: 3}
