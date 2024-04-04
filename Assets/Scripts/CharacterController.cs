@@ -87,10 +87,14 @@ public class FPSController : MonoBehaviour
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
 
-        if (isGrounded && !Input.GetKey(KeyCode.Space) || isGrounded!=gameObject.CompareTag("Killbox"))
+        if (isGrounded || isGrounded != gameObject.CompareTag("Killbox"))
         {
-            verticalSpeed = 0f;
+            if (!Input.GetKey(KeyCode.Space))
+            {
+                verticalSpeed = 0f;
+            }
         }
+
         else
         {
             verticalSpeed += Physics.gravity.y * Time.deltaTime;
@@ -152,7 +156,7 @@ public class FPSController : MonoBehaviour
             isHoldingObject = false;
             heldObject.transform.parent = null;
             heldObject.GetComponent<Rigidbody>().isKinematic = false;
-            heldObject.GetComponent<Rigidbody>().velocity = playerCamera.transform.forward * 10f; // Adjust the force as needed
+            heldObject.GetComponent<Rigidbody>().velocity = playerCamera.transform.forward * 10f;
             heldObject = null;
         }
     }

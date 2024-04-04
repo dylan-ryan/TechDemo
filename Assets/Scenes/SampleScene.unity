@@ -15923,6 +15923,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 5762248127075014466, guid: 2ccf2867c39330342841729fc362ca19, type: 3}
+      propertyPath: jumpForce
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6225410691117257899, guid: 2ccf2867c39330342841729fc362ca19, type: 3}
       propertyPath: m_SkinWidth
       value: 0.1
