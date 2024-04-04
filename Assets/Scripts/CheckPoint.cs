@@ -5,12 +5,26 @@ public class CheckpointPrefab : MonoBehaviour
 {
     // Dictionary = variable that stores multiple information like player and location.
     private static Dictionary<GameObject, Vector3> checkpointPositions = new Dictionary<GameObject, Vector3>();
+    private AudioSource checkpointSound;
+
+    private void Start()
+    {
+        checkpointSound = GetComponent<AudioSource>();
+    }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             CheckpointPos(other.gameObject);
+        }
+    }
+
+    private void PlayCheckpointSound()
+    {
+        if (checkpointSound != null)
+        {
+            checkpointSound.Play();
         }
     }
 
@@ -24,9 +38,13 @@ public class CheckpointPrefab : MonoBehaviour
 
     public void CheckpointPos(GameObject player)
     {
-        //saves players Vector3 in checkpoint trigger
-        checkpointPositions[player] = transform.position;
-        Debug.Log("Checkpoint position stored for player.");
+        if (!checkpointPositions.ContainsKey(player) || checkpointPositions[player] != transform.position)
+        {
+            checkpointPositions[player] = transform.position;
+            Debug.Log("Checkpoint position stored for player.");
+
+            PlayCheckpointSound();
+        }
     }
 
     public void Respawn()
