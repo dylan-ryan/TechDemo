@@ -87,7 +87,7 @@ public class FPSController : MonoBehaviour
 
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
 
-        if (isGrounded && !Input.GetKey(KeyCode.Space))
+        if (isGrounded && !Input.GetKey(KeyCode.Space) || isGrounded!=gameObject.CompareTag("Killbox"))
         {
             verticalSpeed = 0f;
         }
